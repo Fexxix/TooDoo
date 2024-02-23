@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch \"server/**/*.ts\" --exec ts-node server"
+    "dev": "nodemon --watch 'server/**/*.ts' --exec'ts-node' server"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +30,7 @@
     "express": "^4.18.2",
     "express-session": "^1.18.0",
     "mongoose": "^8.1.3",
-    "nodemailer": "^6.9.9"
+    "nodemailer": "^6.9.9",
+    "ts-node": "^10.9.2"
   }
 }
