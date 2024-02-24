@@ -26,8 +26,6 @@ export async function sendVerificationEmail({
 }) {
   const emailHTML = render(Email({ token }))
 
-  console.log("Email HTML:", emailHTML)
-
   const message = {
     from: process.env.SMTP_USER,
     to: email,
