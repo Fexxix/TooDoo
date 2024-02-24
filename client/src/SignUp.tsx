@@ -1,4 +1,4 @@
-import axios from "axios";
+import { default as axios, AxiosError } from "axios";
 import { API_URL } from "./config";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -21,16 +21,24 @@ export default function SignUp() {
   });
   const [hide, setHide] = useState<{ type: string; url: string }>({
     type: "password",
-    url: "eye-regular.svg",
+    url: "eye-slash-regular.svg",
   });
 
   async function onSubmit(data: UserData) {
     console.log(data, API_URL);
+
     try {
       await axios.post(`${API_URL}/users/signup`, data);
     } catch (e) {
-      console.log("err");
-      setApiError(e as typeof apiError);
+      if (e instanceof AxiosError) {
+
+        if (e.response?.data.message) {
+          setApiError({ message: e.response.data.message });
+        } else {
+          e.cause?.message && setApiError({ message: e.cause.message });
+        }
+        
+      }
     }
   }
 
@@ -42,18 +50,26 @@ export default function SignUp() {
         : "eye-regular.svg";
     setHide({ type: newType, url: newUrl });
   };
+
   return (
-    <div className="flex justify-center items-center  h-full w-full  mt-20 ">
+    <>
+     <button className="w-fit h-hit m-5">
+        <Link to="/"><img className="w-10 h-10" src="circle-arrow-left-solid.svg" alt="" />jh</Link>
+      </button>
+    <div className="flex justify-center flex-col items-center  h-full w-full   relative">
+      <h1 className="text-white absolute bg-orange-400 rounded-full text-3xl font-bold top-1 py-3 px-5">
+        SignUp
+      </h1>
       <form
-        className="bg-orange-400 w-fit h-fit p-10 rounded-xl"
+        className="bg-orange-400 w-fit h-fit p-10 rounded-xl text-white mt-6"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="w-full h-20 flex flex-col mt-2">
+        <div className="w-full h-20 flex flex-col mt-2 text-white">
           <label htmlFor="username" className="text-lg font-bold">
-            UserName:
+            Name:
           </label>
           <input
-            className="outline-none  bg-black text-white border-none px-5 ml-8 py-2"
+            className="outline-none  bg-black  border-none px-5 ml-8 py-2"
             style={{ borderRadius: "5px 20px" }}
             type="text"
             placeholder="UserName"
@@ -67,7 +83,7 @@ export default function SignUp() {
             })}
           />
           {errors.username && (
-            <div className="text-sm text-white">{errors.username.message}</div>
+            <div className="text-sm ">{errors.username.message}</div>
           )}
         </div>
 
@@ -145,8 +161,11 @@ export default function SignUp() {
             Login
           </Link>
         </div>
+        {apiError.message && <div className="font-bold mt-2 w-full text-c ">{apiError.message}</div>}
+
       </form>
-      {apiError.message && <div>{apiError.message}</div>}
     </div>
+    </>
+
   );
 }
