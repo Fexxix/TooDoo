@@ -23,12 +23,9 @@ usersRouter.post("/signup", async (req: SignUpRequest, res) => {
   if (exists && !exists.verified) {
     await exists.deleteOne()
 
-    return res
-      .status(400)
-      .json({
-        message:
-          "Email already in use but not verified! Submit again to verify.",
-      })
+    return res.status(400).json({
+      message: "Email already in use but not verified! Submit again to verify.",
+    })
   }
 
   if (exists) {
@@ -86,10 +83,42 @@ usersRouter.post("/login", async (req, res) => {
     return res.status(400).json({ message: "Incorrect Password!" })
   }
 
+  if (!user.verified) {
+    return res.status(400).json({
+      message: "Email not verified! Please verify your email first.",
+    })
+  }
+
   // @ts-ignore
   req.session.user = user
 
   res.status(200).json(user)
+})
+
+usersRouter.post("/verify/:token", async (req, res) => {
+  try {
+    const token = req.params.token
+
+    const tokenDoc = await tokenModel.findOne({ token })
+
+    if (!tokenDoc) {
+      return res.status(400).json({ message: "Invalid or expired token!" })
+    }
+
+    const user = await usersModel.findById(tokenDoc.userId)
+    if (!user) {
+      return res.status(404).json({ message: "User not found" })
+    }
+
+    user.verified = true
+    await user.save()
+    await tokenDoc.deleteOne()
+
+    res.status(200).json({ message: "Email verified successfully" })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" })
+  }
 })
 
 export { usersRouter }

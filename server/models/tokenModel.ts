@@ -5,10 +5,12 @@ const tokenSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
+    unique: true,
   },
   token: {
     type: String,
     required: true,
+    unique: true,
   },
   createdAt: {
     type: Date,
