@@ -1,5 +1,5 @@
-import React from "react";
 import { Link } from "react-router-dom";
+
 export default function Navbar() {
   return (
     <nav className="bg-orange-400 h-fit w-full px-10 py-2  flex justify-between items-center text-white ">
