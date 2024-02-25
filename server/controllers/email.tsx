@@ -6,9 +6,7 @@ export function Email({ token }: { token: string }) {
     <Html lang="en">
       <h1>Verify Your email</h1>
       Click this:{" "}
-      <Link href={`http://${process.env.FRONTEND_URL}/verify/${token}`}>
-        Verify
-      </Link>
+      <Link href={`${process.env.FRONTEND_URL}/verify/${token}`}>Verify</Link>
       <br />
       This link will expire in an hour.
     </Html>

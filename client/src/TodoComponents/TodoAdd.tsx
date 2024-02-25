@@ -1,25 +1,23 @@
-import React from 'react'
-import { useState , useRef } from 'react';
-import TodooLists from './TodoLists';
+import { useState, useRef } from "react"
+import TodooLists from "./TodoLists"
 
 export type Todo = {
-    text: string;
-    complete: string;
-    inputType: boolean;
-    editImage: string;
-    textDecor: string;
-    border: string;
-    iscomplete:boolean
-  };
+  text: string
+  complete: string
+  inputType: boolean
+  editImage: string
+  textDecor: string
+  border: string
+  iscomplete: boolean
+}
 
 function TodoAdd() {
-    const inputElement = useRef<HTMLInputElement | null>(null);
-    const [todoList, setTodosList] = useState<Todo[]>([]);
+  const inputElement = useRef<HTMLInputElement | null>(null)
+  const [todoList, setTodosList] = useState<Todo[]>([])
 
-    
   return (
     <>
-       <div className="flex justify-center items-center my-8 text-2xl">
+      <div className="flex justify-center items-center my-8 text-2xl">
         <input
           ref={inputElement}
           className="outline-none border-none w-[400px] py-3 px-5 rounded-l-2xl"
@@ -39,7 +37,7 @@ function TodoAdd() {
                 editImage: "pen-to-square-solid.svg",
                 textDecor: "no-underline",
                 border: "none",
-                 iscomplete:false
+                iscomplete: false,
               },
             ])
           }
@@ -47,7 +45,7 @@ function TodoAdd() {
           Add
         </button>
       </div>
-     <TodooLists todoList={todoList} setTodosList={setTodosList}/>
+      <TodooLists todoList={todoList} setTodosList={setTodosList} />
     </>
   )
 }
