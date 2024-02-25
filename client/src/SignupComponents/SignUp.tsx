@@ -26,6 +26,7 @@ export default function SignUp() {
 
   async function onSubmit(data: UserData) {
     try {
+      console.log("data:", data)
       console.log(API_URL)
       await axios.post(`${API_URL}/users/signup`, data)
       setApiError({ message: "Email successfully sent check the inbox" })
