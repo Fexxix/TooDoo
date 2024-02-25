@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios"; // Importing AxiosError
-import { API_URL } from "./config";
+import { API_URL } from "../config";
 import { Link } from "react-router-dom";
 export default function Verify() {
   const { token } = useParams();
@@ -44,7 +44,7 @@ export default function Verify() {
         tasks. This verification process adds peace of mind, protecting your
         list from unauthorized access or changes."
       </p>
-      <form className="h-fit bg-orange-400 relative rounded-xl mt-14 px-6 py-8  lg:w-1/3 sm:w-full flex flex-col justify-center items-center ">
+      <form className="h-fit bg-orange-400 relative rounded-xl mt-14 px-6 py-8  lg:w-1/3 sm:w-full flex flex-col justify-center items-center md:w-1/2">
         <h1 className="text-white absolute bg-orange-400 rounded-full text-3xl font-bold top-[-25px] py-3 px-5">
           Verified
         </h1>

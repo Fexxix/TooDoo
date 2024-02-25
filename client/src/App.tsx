@@ -1,9 +1,9 @@
-import Navbar from "./Navbar";
-import Home from "./Home";
+import Navbar from "./SignupComponents/Navbar";
+import Home from "./SignupComponents/Home";
 import { Routes, Route, useLocation } from "react-router-dom";
-import SignUp from "./SignUp";
-import Login from "./Login";
-import Verify from "./Verify";
+import SignUp from "./SignupComponents/SignUp";
+import Login from "./SignupComponents/Login";
+import Verify from "./SignupComponents/Verify";
 import TooDoos from "./TooDoos";
 
 export default function App() {

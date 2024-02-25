@@ -1,5 +1,5 @@
 import { default as axios, AxiosError } from "axios";
-import { API_URL } from "./config";
+import { API_URL } from "../config";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";

@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { default as axios, AxiosError } from "axios";
-import { API_URL } from "./config";
+import { API_URL } from "../config";
 import { useForm } from "react-hook-form";
-
+import { useNavigate } from "react-router-dom";
 type LoginFormData = {
   email: string;
   password: string;
 };
 export default function Login() {
+  const navigate = useNavigate()
   const [hide, setHide] = useState<{ type: string; url: string }>({
     type: "password",
     url: "eye-slash-regular.svg",
@@ -27,7 +28,7 @@ export default function Login() {
         withCredentials: true,
       });
       setError({message:"succesfully login"})
-      console.log("success");
+       navigate("/toodoos")
     } catch (e) {
       if (e instanceof AxiosError) {
         if (e.response?.data.message) {
