@@ -22,10 +22,10 @@ export default function Verify() {
           if (e.response?.data.message) {
             setError({ message: e.response.data.message });
           } else {
-            setError({ message: e.message }); // Access message property directly
+            setError({ message: e.message });
           }
         } else {
-          setError({ message: e.message }); // Handle non-Axios errors
+          setError({ message: e.message }); 
         }
       }
     }
@@ -76,7 +76,7 @@ export default function Verify() {
               <p className="px-4 py-4 my-2 cursor-pointer">Verification Successful</p>
               <div className="w-full h-fit flex justify-center items-center">
                 <button className="ok bg-black rounded-lg px-5 py-2">
-                  <Link to="/toodoos">OK</Link>
+                  <Link to="/login">OK</Link>
                 </button>
               </div>
             </>

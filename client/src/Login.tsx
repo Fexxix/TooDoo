@@ -1,11 +1,48 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { default as axios, AxiosError } from "axios";
+import { API_URL } from "./config";
+import { useForm } from "react-hook-form";
 
+type LoginFormData = {
+  email: string;
+  password: string;
+};
 export default function Login() {
   const [hide, setHide] = useState<{ type: string; url: string }>({
     type: "password",
     url: "eye-slash-regular.svg",
   });
+
+  const [error, setError] = useState({message:""});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>();
+
+  async function onSubmit(data: LoginFormData) {
+    try {
+      await axios.post(`${API_URL}/users/login`, data, {
+        withCredentials: true,
+      });
+      setError({message:"succesfully login"})
+      console.log("success");
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        if (e.response?.data.message) {
+          setError({ message: e.response.data.message });
+        } else {
+          e.cause?.message && setError({ message: e.cause.message });
+        }
+      } else {
+        setError({ message: "An error occurred while logging in." });
+      }
+    }
+  }
+  
+  
+
 
   const togglePasswordVisibility = () => {
     const newType = hide.type === "password" ? "text" : "password";
@@ -21,15 +58,13 @@ export default function Login() {
       <button className="w-fit h-hit m-5 transform hover:scale-125 transition-transform duration-200">
         <Link to="/">
           <img className="w-10 h-10" src="circle-arrow-left-solid.svg" alt="" />
-          jh
         </Link>
       </button>
       <div className="flex justify-center flex-col items-center  h-full w-full   relative">
         <h1 className="text-white cursor-pointer absolute bg-orange-400 rounded-full text-3xl font-bold top-8 py-3 px-5">
           Login
         </h1>
-        <form
-          action=""
+        <form onSubmit={handleSubmit(onSubmit)}
           className="bg-orange-400 w-fit h-fit p-10 rounded-xl text-white mt-14"
         >
           <div className="w-full h-20 flex flex-col mt-2">
@@ -42,6 +77,13 @@ export default function Login() {
               type="email"
               placeholder="Example@gmail.com"
               id="email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,}$/,
+                  message: "Invalid email format",
+                },
+              })}
             />
           </div>
 
@@ -59,6 +101,7 @@ export default function Login() {
                 type={hide.type}
                 placeholder="Password"
                 id="password"
+                {...register("password")}
               />
               <div
                 className="w-5 h-5"
@@ -85,6 +128,11 @@ export default function Login() {
               SignUp
             </Link>
           </div>
+          {error.message && (
+  <div className="font-bold mt-2 w-full text-center">
+    {error.message}
+  </div>
+)}
         </form>
       </div>
     </>
