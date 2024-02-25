@@ -1,52 +1,53 @@
-import { default as axios, AxiosError } from "axios";
-import { API_URL } from "../config";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { default as axios, AxiosError } from "axios"
+import { API_URL } from "../config"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
 type UserData = {
-  username: string;
-  email: string;
-  password: string;
-};
+  username: string
+  email: string
+  password: string
+}
 
 export default function SignUp() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserData>();
+  } = useForm<UserData>()
 
   const [apiError, setApiError] = useState<{ message: string }>({
     message: "",
-  });
+  })
   const [hide, setHide] = useState<{ type: string; url: string }>({
     type: "password",
     url: "eye-slash-regular.svg",
-  });
+  })
 
   async function onSubmit(data: UserData) {
     try {
-      await axios.post(`${API_URL}/users/signup`, data);
-      setApiError({ message: "Email successfully sent check the inbox" });
+      console.log(API_URL)
+      await axios.post(`${API_URL}/users/signup`, data)
+      setApiError({ message: "Email successfully sent check the inbox" })
     } catch (e) {
       if (e instanceof AxiosError) {
         if (e.response?.data.message) {
-          setApiError({ message: e.response.data.message });
+          setApiError({ message: e.response.data.message })
         } else {
-          e.cause?.message && setApiError({ message: e.cause.message });
+          e.cause?.message && setApiError({ message: e.cause.message })
         }
       }
     }
   }
 
   const togglePasswordVisibility = () => {
-    const newType = hide.type === "password" ? "text" : "password";
+    const newType = hide.type === "password" ? "text" : "password"
     const newUrl =
       hide.url === "eye-regular.svg"
         ? "eye-slash-regular.svg"
-        : "eye-regular.svg";
-    setHide({ type: newType, url: newUrl });
-  };
+        : "eye-regular.svg"
+    setHide({ type: newType, url: newUrl })
+  }
 
   return (
     <>
@@ -134,7 +135,7 @@ export default function SignUp() {
               <div
                 className="w-5 h-5"
                 onClick={() => {
-                  togglePasswordVisibility();
+                  togglePasswordVisibility()
                 }}
               >
                 <img className="w-full h-full" src={hide.url} alt="" />
@@ -171,5 +172,5 @@ export default function SignUp() {
         </form>
       </div>
     </>
-  );
+  )
 }
