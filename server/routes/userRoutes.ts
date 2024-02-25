@@ -15,6 +15,15 @@ interface SignUpRequest extends Request {
 
 const usersRouter = Router()
 
+usersRouter.get("/authed", async (req, res) => {
+  // @ts-ignore
+  if (req.session.user) {
+    return res.status(200).json({ message: "Authed!" })
+  }
+
+  res.status(400).json({ message: "Not Authed!" })
+})
+
 usersRouter.post("/signup", async (req: SignUpRequest, res) => {
   const { username, email, password } = req.body
 

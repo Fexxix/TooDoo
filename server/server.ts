@@ -16,7 +16,7 @@ app.use(
     saveUninitialized: false,
   })
 )
-app.use(cors({ origin: "*" }))
+app.use(cors({ origin: "http://localhost:5173", credentials: true }))
 
 // routes
 app.use("/api/users/", usersRouter)
