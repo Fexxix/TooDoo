@@ -1,5 +1,5 @@
 import { default as axios, AxiosError } from "axios";
-import { API_URL } from "./config";
+import { API_URL } from "../config";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -53,15 +53,14 @@ export default function SignUp() {
       <button className="w-fit h-hit m-5 transform hover:scale-125 transition-transform duration-200">
         <Link to="/">
           <img className="w-10 h-10" src="circle-arrow-left-solid.svg" alt="" />
-          jh
         </Link>
       </button>
       <div className="flex justify-center flex-col items-center  h-full w-full   relative">
-        <h1 className="text-white absolute cursor-pointer bg-orange-400 rounded-full text-3xl font-bold top-1 py-3 px-5">
+        <h1 className="text-white absolute cursor-pointer bg-orange-400 rounded-full text-3xl font-bold top-0 py-3 px-5">
           SignUp
         </h1>
         <form
-          className="bg-orange-400 w-fit h-fit p-10 rounded-xl text-white mt-6"
+          className="bg-orange-400 w-fit h-fit p-10 rounded-xl text-white mt-4"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="w-full h-20 flex flex-col mt-2 text-white">

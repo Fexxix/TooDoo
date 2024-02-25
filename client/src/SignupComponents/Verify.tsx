@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios"; // Importing AxiosError
-import { API_URL } from "./config";
+import { API_URL } from "../config";
 import { Link } from "react-router-dom";
 export default function Verify() {
   const { token } = useParams();
@@ -22,10 +22,10 @@ export default function Verify() {
           if (e.response?.data.message) {
             setError({ message: e.response.data.message });
           } else {
-            setError({ message: e.message }); // Access message property directly
+            setError({ message: e.message });
           }
         } else {
-          setError({ message: e.message }); // Handle non-Axios errors
+          setError({ message: e.message }); 
         }
       }
     }
@@ -44,7 +44,7 @@ export default function Verify() {
         tasks. This verification process adds peace of mind, protecting your
         list from unauthorized access or changes."
       </p>
-      <form className="h-fit bg-orange-400 relative rounded-xl mt-14 px-6 py-8  lg:w-1/3 sm:w-full flex flex-col justify-center items-center ">
+      <form className="h-fit bg-orange-400 relative rounded-xl mt-14 px-6 py-8  lg:w-1/3 sm:w-full flex flex-col justify-center items-center md:w-1/2">
         <h1 className="text-white absolute bg-orange-400 rounded-full text-3xl font-bold top-[-25px] py-3 px-5">
           Verified
         </h1>
@@ -76,7 +76,7 @@ export default function Verify() {
               <p className="px-4 py-4 my-2 cursor-pointer">Verification Successful</p>
               <div className="w-full h-fit flex justify-center items-center">
                 <button className="ok bg-black rounded-lg px-5 py-2">
-                  <Link to="/toodoos">OK</Link>
+                  <Link to="/login">OK</Link>
                 </button>
               </div>
             </>

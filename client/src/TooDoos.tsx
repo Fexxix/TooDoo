@@ -1,9 +1,12 @@
 import React from 'react'
+import TodoNavbar from './TodoComponents/TodoNavbar'
+import TodoAdd from './TodoComponents/TodoAdd'
 
 export default function TooDoos() {
   return (
-    <div className='text-6xl text-white'>
-      TOODOOS
-    </div>
+    <>
+     <TodoNavbar />
+     <TodoAdd />
+    </>
   )
 }
