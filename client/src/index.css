@@ -4,3 +4,53 @@
 body {
   background-color: black;
 }
+
+
+.opacity:hover {
+  background: transparent;
+  border: 2px solid #ED8936;
+  color: #ED8936;
+  transition: all 0.5s ease-in;
+}
+
+.overflow {
+  box-shadow: inset -2px -2px 8px 2px #ED8936, inset 2px 2px 8px 2px  #ED8936;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.overflow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ED8936;
+  transition: transform 400ms ease-out;
+  z-index: -1;
+  border-radius: 50%;
+  transform: scale(0);
+}
+
+.overflow:hover:before {
+  transform: scale(1.5);
+}
+
+.overflow:hover {
+  border-color: 2px solid #ED8936;
+  box-shadow: 3px 3px 5px black;
+}
+
+.ok{
+  border: 2px solid black;
+  color: #ED8936;
+}
+
+.ok:hover{
+  background: transparent;
+  border: 2px solid black;
+  color: white;
+  transition: all 0.5s ease-in;
+}
