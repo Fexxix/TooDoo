@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch \"server/**/*.ts\" --exec ts-node server"
+    "dev": "nodemon --watch \"server/**/*.ts\" --exec ts-node server",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
