@@ -37,6 +37,12 @@ usersRouter.post("/signup", async (req: SignUpRequest, res) => {
     })
   }
 
+  if (exists && exists.verified) {
+    return res.status(400).json({
+      message: "Email already in use and verified!",
+    })
+  }
+
   if (exists) {
     return res.status(400).json({ message: "Email already in use!" })
   }
@@ -46,7 +52,7 @@ usersRouter.post("/signup", async (req: SignUpRequest, res) => {
 
   const user = new usersModel({
     email,
-    username,
+    name: username,
     password: hashedPassword,
   })
 
@@ -101,7 +107,13 @@ usersRouter.post("/login", async (req, res) => {
   // @ts-ignore
   req.session.user = user
 
-  res.status(200).json(user)
+  res.status(200).json({
+    user: {
+      name: user.name,
+      email: user.email,
+      id: user._id,
+    },
+  })
 })
 
 usersRouter.post("/verify/:token", async (req, res) => {
@@ -116,7 +128,7 @@ usersRouter.post("/verify/:token", async (req, res) => {
 
     const user = await usersModel.findById(tokenDoc.userId)
     if (!user) {
-      return res.status(404).json({ message: "User not found" })
+      return res.status(404).json({ message: "User not found!" })
     }
 
     user.verified = true
