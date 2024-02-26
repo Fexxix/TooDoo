@@ -1,42 +1,19 @@
 import { Link } from "react-router-dom"
-import { useState } from "react"
-import { default as axios, AxiosError } from "axios"
-import { API_URL } from "../config"
+import { useState , useEffect} from "react"
 import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
-type LoginFormData = {
-  email: string
-  password: string
-}
+import { LoginUserData  , useAuth} from "../Context/AuthProvider"
+
 export default function Login() {
-  const navigate = useNavigate()
+  const {loginError , login , user} = useAuth()!
+
   const [hide, setHide] = useState<{ type: string; url: string }>({
     type: "password",
     url: "eye-slash-regular.svg",
   })
-
-  const [error, setError] = useState({ message: "" })
-  const { register, handleSubmit } = useForm<LoginFormData>()
-
-  async function onSubmit(data: LoginFormData) {
-    try {
-      await axios.post(`${API_URL}/users/login`, data, {
-        withCredentials: true,
-      })
-      setError({ message: "succesfully login" })
-      navigate("/toodoos")
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        if (e.response?.data.message) {
-          setError({ message: e.response.data.message })
-        } else {
-          e.cause?.message && setError({ message: e.cause.message })
-        }
-      } else {
-        setError({ message: "An error occurred while logging in." })
-      }
-    }
-  }
+useEffect(()=>{
+console.log(user)
+},[user])
+  const { register, handleSubmit } = useForm<LoginUserData>()
 
   const togglePasswordVisibility = () => {
     const newType = hide.type === "password" ? "text" : "password"
@@ -46,6 +23,7 @@ export default function Login() {
         : "eye-regular.svg"
     setHide({ type: newType, url: newUrl })
   }
+
 
   return (
     <>
@@ -59,7 +37,7 @@ export default function Login() {
           Login
         </h1>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(login)}
           className="bg-orange-400 w-fit h-fit p-10 rounded-xl text-white mt-14"
         >
           <div className="w-full h-20 flex flex-col mt-2">
@@ -123,13 +101,14 @@ export default function Login() {
               SignUp
             </Link>
           </div>
-          {error.message && (
+          {loginError.message && (
             <div className="font-bold mt-2 w-full text-center">
-              {error.message}
+              {loginError.message}
             </div>
           )}
         </form>
       </div>
     </>
   )
+
 }

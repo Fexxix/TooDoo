@@ -1,45 +1,22 @@
-import { default as axios, AxiosError } from "axios"
-import { API_URL } from "../config"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
-type UserData = {
-  username: string
-  email: string
-  password: string
-}
+import { SignupUserData, useAuth } from "../Context/AuthProvider"
 
 export default function SignUp() {
+  const {signUpError, signup} = useAuth()!
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserData>()
-
-  const [apiError, setApiError] = useState<{ message: string }>({
-    message: "",
-  })
+  } = useForm<SignupUserData>()
+  
   const [hide, setHide] = useState<{ type: string; url: string }>({
     type: "password",
     url: "eye-slash-regular.svg",
   })
 
-  async function onSubmit(data: UserData) {
-    try {
-      console.log("data:", data)
-      console.log(API_URL)
-      await axios.post(`${API_URL}/users/signup`, data)
-      setApiError({ message: "Email successfully sent check the inbox" })
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        if (e.response?.data.message) {
-          setApiError({ message: e.response.data.message })
-        } else {
-          e.cause?.message && setApiError({ message: e.cause.message })
-        }
-      }
-    }
-  }
+ 
 
   const togglePasswordVisibility = () => {
     const newType = hide.type === "password" ? "text" : "password"
@@ -63,7 +40,7 @@ export default function SignUp() {
         </h1>
         <form
           className="bg-orange-400 w-fit h-fit p-10 rounded-xl text-white mt-4"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(signup)}
         >
           <div className="w-full h-20 flex flex-col mt-2 text-white">
             <label htmlFor="username" className="text-lg font-bold">
@@ -165,9 +142,11 @@ export default function SignUp() {
             </Link>
           </div>
 
-          {apiError.message && (
+
+          {signUpError.message && (
             <div className="font-bold mt-2 w-full text-c ">
-              {apiError.message}
+              {signUpError.message}
+              
             </div>
           )}
         </form>
