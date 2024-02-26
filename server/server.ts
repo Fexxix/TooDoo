@@ -6,6 +6,7 @@ import mongoose from "mongoose"
 import session from "express-session"
 import { usersRouter } from "./routes/userRoutes"
 import cors from "cors"
+import { todoRouter } from "./routes/todoRoutes"
 
 const app = express()
 app.use(express.json())
@@ -20,6 +21,7 @@ app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }))
 
 // routes
 app.use("/api/users/", usersRouter)
+app.use("/api/todos/", todoRouter)
 
 mongoose
   .connect(process.env.MONGODB_URI!)
