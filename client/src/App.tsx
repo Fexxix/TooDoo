@@ -5,12 +5,14 @@ import SignUp from "./SignupComponents/SignUp";
 import Login from "./SignupComponents/Login";
 import Verify from "./SignupComponents/Verify";
 import TooDoos from "./TooDoos";
+import AuthProvider from "./Context/AuthProvider";
 
 export default function App() {
   const { pathname } = useLocation();
 
   return (
     <>
+    <AuthProvider>
       {pathname === "/" && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -19,6 +21,7 @@ export default function App() {
         <Route path="/verify/:token" element={<Verify />} />
         <Route path="/toodoos" element={<TooDoos />} />
       </Routes>
+    </AuthProvider>
     </>
   );
 }
