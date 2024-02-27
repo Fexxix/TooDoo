@@ -13,6 +13,13 @@ interface SignUpRequest extends Request {
   }
 }
 
+interface LoginRequest extends Request {
+  body: {
+    email: string
+    password: string
+  }
+}
+
 const usersRouter = Router()
 
 usersRouter.get("/authed", async (req, res) => {
@@ -83,7 +90,17 @@ usersRouter.post("/signup", async (req: SignUpRequest, res) => {
   }
 })
 
-usersRouter.post("/login", async (req, res) => {
+usersRouter.post("/login", async (req: LoginRequest, res) => {
+  if (req.session.user) {
+    return res.status(200).json({
+      user: {
+        name: req.session.user.name,
+        email: req.session.user.email,
+        id: req.session.user._id,
+      },
+    })
+  }
+
   const { email, password } = req.body
 
   const user = await usersModel.findOne({ email })
@@ -104,7 +121,6 @@ usersRouter.post("/login", async (req, res) => {
     })
   }
 
-  // @ts-ignore
   req.session.user = user
 
   res.status(200).json({
@@ -140,6 +156,17 @@ usersRouter.post("/verify/:token", async (req, res) => {
     console.error(error)
     res.status(500).json({ message: "Server error" })
   }
+})
+
+usersRouter.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err)
+      return res.status(400).json({ message: "Error logging out" })
+    }
+    res.clearCookie("connect.sid")
+    res.status(200).json({ message: "Logged out successfully" })
+  })
 })
 
 export { usersRouter }
