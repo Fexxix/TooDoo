@@ -1,31 +1,29 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
-import { SignupUserData, useAuth } from "../Context/AuthProvider"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { SignupUserData, useAuth } from "../Context/AuthProvider";
 
 export default function SignUp() {
-  const {signUpError, signup} = useAuth()!
+  const { signUpError, signup } = useAuth()!;
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupUserData>()
-  
+  } = useForm<SignupUserData>();
+
   const [hide, setHide] = useState<{ type: string; url: string }>({
     type: "password",
     url: "eye-slash-regular.svg",
-  })
-
- 
+  });
 
   const togglePasswordVisibility = () => {
-    const newType = hide.type === "password" ? "text" : "password"
+    const newType = hide.type === "password" ? "text" : "password";
     const newUrl =
       hide.url === "eye-regular.svg"
         ? "eye-slash-regular.svg"
-        : "eye-regular.svg"
-    setHide({ type: newType, url: newUrl })
-  }
+        : "eye-regular.svg";
+    setHide({ type: newType, url: newUrl });
+  };
 
   return (
     <>
@@ -113,7 +111,7 @@ export default function SignUp() {
               <div
                 className="w-5 h-5"
                 onClick={() => {
-                  togglePasswordVisibility()
+                  togglePasswordVisibility();
                 }}
               >
                 <img className="w-full h-full" src={hide.url} alt="" />
@@ -142,15 +140,13 @@ export default function SignUp() {
             </Link>
           </div>
 
-
           {signUpError.message && (
             <div className="font-bold mt-2 w-full text-c ">
               {signUpError.message}
-              
             </div>
           )}
         </form>
       </div>
     </>
-  )
+  );
 }

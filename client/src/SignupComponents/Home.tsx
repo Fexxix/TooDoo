@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom"
-import { API_URL } from "../config"
+import { Link } from "react-router-dom";
+import { API_URL } from "../config";
 export default function Home() {
-
   return (
     <>
       <div className="text-white flex justify-center items-center flex-col mt-20">
@@ -20,6 +19,5 @@ export default function Home() {
         </div>
       </div>
     </>
-  )
-  
+  );
 }
