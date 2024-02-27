@@ -3,17 +3,13 @@ import { render } from "@react-email/render"
 import { Email } from "./email"
 
 const transporter = createTransport({
+  // @ts-ignore
   host: process.env.SMTP_HOST,
-  port: 465,
-  secure: true,
+  port: process.env.SMTP_PORT,
+  service: process.env.SMTP_SERVICE,
   auth: {
-    type: "OAuth2",
     user: process.env.SMTP_USER,
-    clientId: process.env.OAUTH_CLIENT_ID,
-    clientSecret: process.env.OAUTH_CLIENT_SECRET,
-    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-    accessToken: process.env.OAUTH_ACCESS_TOKEN,
-    expires: Number(process.env.OAUTH_TOKEN_EXPIRES),
+    pass: process.env.SMTP_PASSWORD,
   },
 })
 
