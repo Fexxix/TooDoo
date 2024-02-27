@@ -5,7 +5,6 @@ export function isAuthenticated(
   res: Response,
   next: NextFunction
 ) {
-  // @ts-ignore
   if (req.session.user) {
     return next()
   }
