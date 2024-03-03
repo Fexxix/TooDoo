@@ -25,7 +25,7 @@ type AuthContextType = {
   user: User | null;
   signup: (data: SignupUserData) => Promise<void>;
   login: (data: LoginUserData) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   signUpError: { message: string };
   loginError: { message: string };
 };
@@ -119,7 +119,18 @@ export default function AuthProvider({
   }
 
   async function logout() {
-    // TODO: implement logout
+    try {
+      await axios.post(
+        `${API_URL}/users/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      setUser(null);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   }
 
   const value = {

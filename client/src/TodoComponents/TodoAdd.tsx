@@ -1,29 +1,36 @@
 import { useForm } from "react-hook-form";
+import TodoLists from "./TodoLists";
+import { useTodo } from "../Context/TodoProvider";
+import { Todo } from "../Context/TodoProvider";
 
-export type Todo = {
-  title: string;
-  description: string;
-  is: string;
-};
 function TodoAdd() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Todo>();
+  const { addTodo, loading, error } = useTodo()!;
 
-  const addTodo = (data: any) => {
-    console.log(data);
-  };
+  if (loading) {
+    return <div className="text-white text-3xl font-bold">Loading...</div>;
+  }
+
+  if (error.message) {
+    return <div className="text-white text-3xl font-bold">{error.message}</div>;
+  }
+
   return (
     <>
       <form className="flex justify-center items-center my-8 text-2xl">
         <div className="lg:w-[75%] md:w-[90%] sm:w-[80%] flex justify-center items-center flex-col">
-          <div className="w-full px-5 flex justify-center items-center  my-1 sm:flex-col lg:flex-row md:flex-row">
-            <label htmlFor="title" className="text-white my-1 w-[15%]">
+          <div className="w-full px-5 flex justify-center items-center  my-1  ">
+            <label
+              htmlFor="title"
+              className="text-white my-1 w-[15%] hidden md:block "
+            >
               Title:
             </label>
-            <div className="w-[85%] h-full">
+            <div className="lg:w-[85%] md:w-[85%] w-[100%] h-full">
               <input
                 placeholder="Add title of todo"
                 className="outline-none border-none w-full h-full  py-3 px-5 rounded-2xl"
@@ -45,11 +52,14 @@ function TodoAdd() {
             </div>
           </div>
 
-          <div className="w-full px-5 flex justify-center items-center my-1 lg:flex-row md:flex-row sm:flex-col">
-            <label htmlFor="description" className="text-white  w-[15%] ">
+          <div className="w-full px-5 flex justify-center items-center my-1 ">
+            <label
+              htmlFor="description"
+              className="text-white  w-[15%] hidden md:block"
+            >
               Description:
             </label>
-            <div className="w-[85%] h-full">
+            <div className="lg:w-[85%] md:w-[85%] w-[100%] h-full">
               <input
                 placeholder="Add Description of todo"
                 id="description"
@@ -78,7 +88,10 @@ function TodoAdd() {
           <img className="w-full h-full" src="plus-solid.svg" alt="" />
         </div>
       </form>
-      {/* <TodooLists todoList={todoList} setTodosList={setTodosList} /> */}
+
+      <main className=" flex justify-center items-center flex-col">
+        <TodoLists />
+      </main>
     </>
   );
 }
