@@ -4,17 +4,26 @@
 body {
   background-color: black;
 }
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
 .opacity:hover {
   background: transparent;
-  border: 2px solid #ED8936;
-  color: #ED8936;
+  border: 2px solid #ed8936;
+  color: #ed8936;
   transition: all 0.5s ease-in;
 }
 
 .overflow {
-  box-shadow: inset -2px -2px 8px 2px #ED8936, inset 2px 2px 8px 2px  #ED8936;
+  box-shadow: inset -2px -2px 8px 2px #ed8936, inset 2px 2px 8px 2px #ed8936;
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -27,7 +36,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ED8936;
+  background-color: #ed8936;
   transition: transform 400ms ease-out;
   z-index: -1;
   border-radius: 50%;
@@ -39,16 +48,16 @@ body {
 }
 
 .overflow:hover {
-  border-color: 2px solid #ED8936;
+  border-color: 2px solid #ed8936;
   box-shadow: 3px 3px 5px black;
 }
 
-.ok{
+.ok {
   border: 2px solid black;
-  color: #ED8936;
+  color: #ed8936;
 }
 
-.ok:hover{
+.ok:hover {
   background: transparent;
   border: 2px solid black;
   color: white;

@@ -15,7 +15,6 @@ export default function Verify() {
           throw new Error("Token not provided");
         }
         const res = await axios.post(`${API_URL}/users/verify/${token}`);
-        console.log("Response:", res.data);
         setVerified(res.data);
       } catch (e: any) {
         if (e instanceof AxiosError) {
@@ -25,7 +24,7 @@ export default function Verify() {
             setError({ message: e.message });
           }
         } else {
-          setError({ message: e.message }); 
+          setError({ message: e.message });
         }
       }
     }
@@ -55,7 +54,9 @@ export default function Verify() {
 
           {error.message ? (
             <>
-              <p className="px-4 py-4 my-2 cursor-pointer">Error: {error.message}</p>
+              <p className="px-4 py-4 my-2 cursor-pointer">
+                Error: {error.message}
+              </p>
               <div className="w-full h-fit flex justify-center items-center">
                 <button className="ok bg-black rounded-lg px-5 py-2">
                   <Link to="/signup">OK</Link>
@@ -73,7 +74,9 @@ export default function Verify() {
             </>
           ) : verified ? (
             <>
-              <p className="px-4 py-4 my-2 cursor-pointer">Verification Successful</p>
+              <p className="px-4 py-4 my-2 cursor-pointer">
+                Verification Successful
+              </p>
               <div className="w-full h-fit flex justify-center items-center">
                 <button className="ok bg-black rounded-lg px-5 py-2">
                   <Link to="/login">OK</Link>

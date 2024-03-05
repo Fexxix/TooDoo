@@ -1,130 +1,131 @@
-export default function TodooLists(props: any) {
-  const { setTodosList, todoList } = props
-
-  const handleComplete = (i: number) => {
-    setTodosList((p: any) => {
-      const updatedTodos = [...p]
-      if (updatedTodos[i].editImage === "check-solid.svg") {
-        updatedTodos[i] = {
-          ...updatedTodos[i],
-          editImage: "pen-to-square-solid.svg",
-        }
-        updatedTodos[i] = { ...updatedTodos[i], inputType: true }
-        updatedTodos[i] = { ...updatedTodos[i], border: "none" }
-        updatedTodos[i] = { ...updatedTodos[i], isComplete: true }
-      }
-      updatedTodos[i] = {
-        ...updatedTodos[i],
-        complete: "check-double-solid.svg",
-      }
-      updatedTodos[i] = { ...updatedTodos[i], textDecor: "line-through" }
-      return updatedTodos
-    })
-  }
-
-  const handleDel = (i: number) => {
-    setTodosList([...todoList.slice(0, i), ...todoList.slice(i + 1)])
-  }
-
-  const handleEdit = (i: number) => {
-    if (!todoList[i]) {
-      if (todoList[i].editImage === "pen-to-square-solid.svg") {
-        setTodosList((prevTodos: any) => {
-          const updatedTodos = [...prevTodos]
-          updatedTodos[i] = { ...updatedTodos[i], editImage: "check-solid.svg" }
-          updatedTodos[i] = { ...updatedTodos[i], inputType: false }
-          updatedTodos[i] = { ...updatedTodos[i], border: "2" }
-          return updatedTodos
-        })
-      } else {
-        setTodosList((prevTodos: any) => {
-          const updatedTodos = [...prevTodos]
-          updatedTodos[i] = {
-            ...updatedTodos[i],
-            editImage: "pen-to-square-solid.svg",
-          }
-          updatedTodos[i] = { ...updatedTodos[i], inputType: true }
-          updatedTodos[i] = { ...updatedTodos[i], border: "none" }
-          return updatedTodos
-        })
-      }
-    }
-  }
-
-  const handleInputChange = (index: number, newText: string) => {
-    setTodosList((prevTodos: any) => {
-      const updatedTodos = [...prevTodos]
-      updatedTodos[index].text = newText
-      return updatedTodos
-    })
-  }
-
+import { useTodo } from "../Context/TodoProvider";
+ export default function TodoLists() {
+  const {
+    todos,
+    todostyle,
+    remove,
+    edit,
+    handleInputChange,
+    handleTextAreaChange,
+    description
+  } = useTodo()!;
   return (
     <>
-      <div
-        className="mt-8"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div
-          onClick={() => {
-            setTodosList([])
-          }}
-          className="cursor-pointer my-4 text-white relative left-0 w-fit h-fit  py-3 px-4 bg-orange-400 rounded-full hover:bg-orange-600 transform hover:scale-110 hover:scale-x-125 transition-transform duration-300 ease-in-out "
-        >
-          clear all
-        </div>
-        {todoList.map((todo: any, index: any) => (
-          <div
-            key={index}
-            className="w-[450px] mt-3 h-14 flex bg-orange-400 justify-center item-center px-2 rounded-2xl"
-          >
-            <div
-              onClick={() => {
-                handleComplete(index)
+      {todos.map((todo: any, index: number) => (
+       <div key={index}
+       className="bg-orange-400 my-2 lg:w-[65%] md:w-[80%] w-[90%] rounded-2xl overflow-hidden"
+     >
+       <div className="bg-orange-400 h-fit text-white flex flex-col px-6 py-3 justify-center items-center">
+       <input
+              onChange={(e) => {
+                handleInputChange(e, index);
               }}
-              className="w-6 h-full item-center mx-2"
-            >
-              <img className="w-full h-full " src={todo.complete} alt="" />
-            </div>
-            <input
-              onChange={(e) => handleInputChange(index, e.target.value)}
-              disabled={todo.inputType}
-              className={`${todo.textDecor} bg-orange-400 text-2xl text-white w-[350px] outline-none border-${todo.border} border-white my-1 px-1 rounded-xl `}
+              id={`title-${index}`}
+              disabled={todostyle[index]?.edit}
+              className={`text-2xl bg-orange-400 border-white ${
+                todostyle[index]?.edit ? "border-none" : "border-2"
+              } py-1 px-3 w-full outline-none my-1 rounded-xl`}
               type="text"
-              value={!todo.text ? "List" : todo.text}
+              value={todostyle[index]?.title}
             />
-            <div
+
+         <div className="w-full h-full flex flex-col justify-center items-center mt-2">
+         <div
+                className="w-5 h-5"
+                onClick={() => {
+                  description(index);
+                }}
+              >
+                <img
+                  src={
+                    !todostyle[index]?.description
+                      ? "angle-down-solid.svg"
+                      : "angle-up-solid.svg"
+                  }
+                  alt=""
+                />
+              </div>
+
+           
+              <textarea
+                onChange={(e) => {
+                  handleTextAreaChange(e, index);
+                }}
+                className={`bg-orange-400 scrollbar-hide px-3 py-1 rounded-lg mt-2 resize-none text-lg text-white  ${
+                  todostyle[index]?.edit ? "border-none" : "border-2"
+                } outline-none w-full transition-max-height duration-300`}
+                id={`description-${index}`} // Added index to make id unique
+                disabled={todostyle[index]?.edit}
+                rows={2}
+                value={todostyle[index]?.des} // Added empty string as fallback value
+                style={{
+                  maxHeight: !todostyle[index]?.description ? "0px" : "100px",
+                  borderColor :!todostyle[index]?.description ? "#ED8936" : "white",
+                }}
+              ></textarea>
+         </div>
+       </div>
+
+       <div className="w-full  h-fit flex justify-center items-center  text-white text-lg font-bold ">
+            <button
               onClick={() => {
-                handleEdit(index)
+                edit(todo.id, index);
               }}
-              className="w-6 h-full ml-6  mx-2"
+              className="overflow border-black border-2 mx-2 my-1 bg-black px-6 py-2 rounded-2xl"
             >
-              <img
-                className="w-full h-full text-red-300"
-                src={todo.editImage}
-                alt=""
-              />
-            </div>
-            <div
+              {todostyle[index]?.edit ? "Edit" : "Done"}
+            </button>
+
+            <button
+              className="overflow border-black border-2 mx-2 my-1 bg-black px-6 py-2 rounded-2xl"
               onClick={() => {
-                handleDel(index)
+                remove(todo.id, index);
               }}
-              className="w-6 h-full mx-2"
             >
-              <img
-                className="w-full h-full text-red-300"
-                src="trash-can-regular.svg"
-                alt=""
-              />
-            </div>
+              Remove
+            </button>
           </div>
-        ))}
-      </div>
+     </div>
+    // <div  className="bg-orange-400 my-2 lg:w-[65%] md:w-[80%] w-[90%] rounded-2xl overflow-hidden">
+    //       <div className="bg-orange-400 h-fit text-white flex flex-col px-6 py-3 justify-center items-center">
+    //         <input
+    //           className={`text-2xl bg-orange-400 border-white py-1 px-3 w-full outline-none my-1 rounded-xl`}
+    //           type="text"
+    //           value={"bjbjbjb"}
+    //         />
+
+    //         <div className="w-full h-full flex flex-col justify-center items-center mt-2">
+    //           <div
+    //             className="w-5 h-5"
+    //             onClick={() => {
+    //               setDescription(des ? false : true);
+    //             }}
+    //           >
+    //             <img src={"angle-down-solid.svg"} alt="" />
+    //           </div>
+
+    //           <textarea
+    //             className={`bg-orange-400 scrollbar-hide px-3 py-1 rounded-lg mt-2 resize-none text-lg text-white  border-white  outline-none w-full transition-max-height duration-300`}
+    //             id={`description`} // Added index to make id unique
+    //             disabled={des}
+    //             rows={2}
+    //             value={"bjjjjb"} // Added empty string as fallback value
+    //             style={{
+    //               maxHeight: des ? "0px" : "100px",
+    //             }}
+    //           ></textarea>
+    //         </div>
+    //       </div>
+
+    //       <div className="w-full  h-fit flex justify-center items-center  text-white text-lg font-bold ">
+    //         <button className="overflow border-black border-2 mx-2 my-1 bg-black px-6 py-2 rounded-2xl"></button>
+
+    //         <button className="overflow border-black border-2 mx-2 my-1 bg-black px-6 py-2 rounded-2xl">
+    //           Remove
+    //         </button>
+    //       </div>
+    //     </div>
+      ))}
     </>
-  )
+  );
 }
