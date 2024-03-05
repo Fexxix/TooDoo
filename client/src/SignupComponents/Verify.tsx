@@ -15,7 +15,6 @@ export default function Verify() {
           throw new Error("Token not provided");
         }
         const res = await axios.post(`${API_URL}/users/verify/${token}`);
-        console.log("Response:", res.data);
         setVerified(res.data);
       } catch (e: any) {
         if (e instanceof AxiosError) {

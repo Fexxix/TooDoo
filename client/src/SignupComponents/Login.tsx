@@ -4,15 +4,13 @@ import { useForm } from "react-hook-form";
 import { LoginUserData, useAuth } from "../Context/AuthProvider";
 
 export default function Login() {
-  const { loginError, login, user } = useAuth()!;
+  const { loginError, login } = useAuth()!;
 
   const [hide, setHide] = useState<{ type: string; url: string }>({
     type: "password",
     url: "eye-slash-regular.svg",
   });
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+
   const { register, handleSubmit } = useForm<LoginUserData>();
 
   const togglePasswordVisibility = () => {

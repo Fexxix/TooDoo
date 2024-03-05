@@ -9,14 +9,10 @@ function TodoAdd() {
     handleSubmit,
     formState: { errors },
   } = useForm<Todo>();
-  const { addTodo, loading, error } = useTodo()!;
+  const { addTodo, loading } = useTodo()!;
 
   if (loading) {
     return <div className="text-white text-3xl font-bold">Loading...</div>;
-  }
-
-  if (error.message) {
-    return <div className="text-white text-3xl font-bold">{error.message}</div>;
   }
 
   return (

@@ -23,8 +23,8 @@ type TodoContextType = {
   handleTextAreaChange: (e: any, index: number) => void;
   todos: Todo[];
   todostyle: todo[];
-  setTodoStyle: any;
   loading: boolean;
+
   error: { message: string };
   description: (i: number) => void;
 };
@@ -53,7 +53,6 @@ export default function TodoProvider({
             withCredentials: true,
           });
           setTodos(res.data.todos);
-          console.log(todos.length);
           setLoading(false);
         }
       } catch (e) {
@@ -83,7 +82,6 @@ export default function TodoProvider({
   }, [todos]);
 
   const addTodo = async (data: any) => {
-    console.log("asde");
     if (user) {
       const newData = { ...data, id: user.id };
       try {
@@ -133,7 +131,6 @@ export default function TodoProvider({
           updatedStyles[i] = { ...updatedStyles[i], edit: true };
           return updatedStyles;
         });
-        console.log("success");
       } catch (error) {
         console.error("Error editing todo:", error);
       }
@@ -170,13 +167,13 @@ export default function TodoProvider({
       return updatedStyles;
     });
   };
+
   const value = {
     addTodo,
     todos,
     todostyle,
     handleInputChange,
     handleTextAreaChange,
-    setTodoStyle,
     remove,
     edit,
     loading,

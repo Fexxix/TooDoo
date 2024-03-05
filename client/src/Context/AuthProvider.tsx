@@ -82,10 +82,12 @@ export default function AuthProvider({
 
   async function signup(data: SignupUserData) {
     try {
-      console.log("data:", data);
-      console.log(API_URL);
       await axios.post(`${API_URL}/users/signup`, data);
       setSignUpError({ message: "Email successfully sent check the inbox" });
+
+      setTimeout(() => {
+        setSignUpError({ message: "" });
+      }, 2000);
     } catch (e) {
       if (e instanceof AxiosError) {
         if (e.response?.data.message) {
@@ -105,6 +107,9 @@ export default function AuthProvider({
       setLoginError({ message: "succesfully login" });
       setUser(res.data.user);
       navigate("/toodoos");
+      setTimeout(() => {
+        setLoginError({ message: "" });
+      }, 2000);
     } catch (e) {
       if (e instanceof AxiosError) {
         if (e.response?.data.message) {

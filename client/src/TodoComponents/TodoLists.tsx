@@ -54,7 +54,7 @@ export default function TodoLists() {
                 onChange={(e) => {
                   handleTextAreaChange(e, index);
                 }}
-                className={`bg-orange-400 scrollbar-hide px-3 py-1 rounded-lg mt-2 resize-none text-lg text-white  border-white ${
+                className={`bg-orange-400 scrollbar-hide px-3 py-1 rounded-lg mt-2 resize-none text-lg text-white  ${
                   todostyle[index]?.edit ? "border-none" : "border-2"
                 } outline-none w-full transition-max-height duration-300`}
                 id={`description-${index}`} // Added index to make id unique
@@ -63,6 +63,9 @@ export default function TodoLists() {
                 value={todostyle[index]?.des} // Added empty string as fallback value
                 style={{
                   maxHeight: !todostyle[index]?.description ? "0px" : "100px",
+                  borderColor: !todostyle[index]?.description
+                    ? "#ED8936"
+                    : "white",
                 }}
               ></textarea>
             </div>

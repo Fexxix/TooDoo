@@ -36,6 +36,7 @@ export default function SignUp() {
         <h1 className="text-white absolute cursor-pointer bg-orange-400 rounded-full text-3xl font-bold top-0 py-3 px-5">
           SignUp
         </h1>
+
         <form
           className="bg-orange-400 w-fit h-fit p-10 rounded-xl text-white mt-4"
           onSubmit={handleSubmit(signup)}
